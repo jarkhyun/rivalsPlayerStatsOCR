@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './App.css';
 import Tesseract from 'tesseract.js';
+import axios from "axios";
 
 function App() {
   const [file, setfile] = useState();
@@ -51,7 +52,7 @@ function App() {
     setHasPhoto(false);
   }
 
-  //text extractor
+  // text extractor
 
   const onFileChange = (e) => {
     setfile(e.target.files[0]);
@@ -76,10 +77,25 @@ function App() {
   //rivals api
 
   const axios = require('axios');
-  
-  axios.get('https://marvelrivalsapi.com/api/v1/player/JohnDoe', {
-    headers: { 'x-api-key': 'YOUR_API_KEY' }
-  }).then(response => console.log(response.data)).catch(error => console.error(error));
+  const url = 'https://marvelrivalsapi.com/api/v1/heroes/leaderboard/venom';
+
+// Make a request for a user with a given ID
+  fetch(url, {
+    headers: {
+      "x-api-key": process.env.REACT_APP_API_KEY
+    }
+  })
+  .then(function (response) {
+    // handle success
+    console.log(response.data);
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  .finally(function () {
+    // always executed
+  });
 
   return (
     <div className="App">
@@ -103,6 +119,6 @@ function App() {
       {result !=="" && result}
     </div>
   );
-}
+};
 
 export default App;
