@@ -119,7 +119,7 @@ function App() {
         {inProgress===true && <progress id="center" value={progress} max={1} />}
         <canvas ref={photoRef}></canvas>
         <button id="close" onClick={closePhoto}>Close</button>
-        <button id="submit" onClick={processImage}>Capture</button>
+        <button id="submit" onClick={processImage}>OCR</button>
         <div id="center">{result !=="" && result}</div>
         <div>
           <input type="text" minLength={3} maxLength={14} id="player1" placeholder='Player 1' ></input><br></br>
