@@ -43,7 +43,7 @@ button{
   outline: none;
 
   padding: 8px 16px;
-  background-image: linear-gradient(to right, #844FFF 50%, #fc3 50%);
+  background-image: linear-gradient(to right, #62a1c9 50%, #fc3 50%);
   background-size: 200%;
   color: #fff;
   font-size: 24px;
@@ -71,4 +71,15 @@ button:hover {
 canvas {
   width: 100%;
   height: auto;
+}
+
+#progress {
+  position:absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 50%;
+  display: block;
+  margin: auto;
 }

@@ -44,6 +44,8 @@ function App() {
     let ctx = photo.getContext('2d');
     ctx.drawImage(video, 0, 0, width, height);
     setHasPhoto(true);
+    console.log(photoRef.current);
+    URL.createObjectURL(photoRef.current)
   }
   const closePhoto = () => {
     let photo = photoRef.current;
@@ -80,22 +82,22 @@ function App() {
   const url = 'https://marvelrivalsapi.com/api/v1/heroes/leaderboard/venom';
 
 // Make a request for a user with a given ID
-  fetch(url, {
-    headers: {
-      "x-api-key": process.env.REACT_APP_API_KEY
-    }
-  })
-  .then(function (response) {
-    // handle success
-    console.log(response.data);
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-  .finally(function () {
-    // always executed
-  });
+  // fetch(url, {
+  //   headers: {
+  //     "x-api-key": process.env.REACT_APP_API_KEY
+  //   }
+  // })
+  // .then(function (response) {
+  //   // handle success
+  //   console.log(response.data);
+  // })
+  // .catch(function (error) {
+  //   // handle error
+  //   console.log(error);
+  // })
+  // .finally(function () {
+  //   // always executed
+  // });
 
   return (
     <div className="App">
@@ -107,11 +109,12 @@ function App() {
         <canvas ref={photoRef}></canvas>
         <button id="close" onClick={closePhoto}>Close</button>
         <button id="submit" onClick={processImage}>Submit</button>
+        {inProgress===true && <progress id="progress" value={progress} max={1} />}
       </div>
       
       {file && <img src={URL.createObjectURL(file)} />}
       <div>
-        {inProgress===true && <progress value={progress} max={1} />}
+        
       </div>
       <input type="file" onChange={onFileChange} />
       <div>
