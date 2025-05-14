@@ -8,6 +8,7 @@ function App() {
   const [progress, setProgress] = useState(0);
   const [inProgress, setInProgress] = useState(false);
   const [result, setResult] = useState('');
+  const [players,setPlayers] = useState([]);
 
   const [hasPhoto, setHasPhoto] = useState(false);
   const videoRef = useRef(null);
@@ -18,13 +19,13 @@ function App() {
   const getVideo = () => {
     navigator.mediaDevices
     .getUserMedia({ 
-      video: { width: 1280, height: 720}
+      video: true, audio: false
     }).then(stream => {
       let video = videoRef.current;
       video.srcObject = stream;
       video.play();
     }).catch(err => {
-      console.error(err);
+      console.log(err);
     })
   }
   useEffect(() => {
@@ -74,7 +75,7 @@ function App() {
     });
   };
 
-  //rivals api
+  //rivals api search
 
   const searchNames = () => {
     const arr = [];
@@ -103,8 +104,10 @@ function App() {
         });
       }
     };
-    console.log(arr2)
+    setPlayers(arr2);
   }
+
+  console.log(players);
 
   return (
     <div className="App">
@@ -127,15 +130,7 @@ function App() {
           <input type="text" minLength={3} maxLength={14} color="black" id="player6" placeholder='Player 6'></input><br></br>
           <button id="search" onClick={searchNames}>Search</button>
         </div>
-      </div>
-      
-      {/* {file && <img src={URL.createObjectURL(file)} />} */}
-      <div>
-        
-      {/* </div>
-      <input type="file" onChange={onFileChange} />
-      <div> */}
-         
+        {players && <div />}
       </div>
     </div>
   );
