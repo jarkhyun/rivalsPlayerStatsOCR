@@ -32,8 +32,8 @@ function App() {
   }, [videoRef])
  
   const takePhoto = () => {
-    const width = 414;
-    const height = width / (16/9);
+    const width = 1280;
+    const height = 720;
 
     let video = videoRef.current;
     let photo = photoRef.current;
