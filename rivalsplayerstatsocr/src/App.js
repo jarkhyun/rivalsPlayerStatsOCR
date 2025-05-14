@@ -61,7 +61,7 @@ function App() {
 
   const processImage = () => {
     Tesseract.recognize(
-      file,"eng",'1',
+      file,"eng",'2',
       { logger: (m) => {
           if (m.status==="recognizing text") {
             setProgress(m.progress);
@@ -122,12 +122,12 @@ function App() {
         {inProgress===true && <progress id="center" value={progress} max={1} />}
         <div id="center">{result !=="" && result}</div>
         <div>
-          <input type="text" minLength={3} maxLength={14} color="black" id="player1" placeholder='Player 1' ></input><br></br>
-          <input type="text" minLength={3} maxLength={14} color="black" id="player2" placeholder='Player 2'></input><br></br>
-          <input type="text" minLength={3} maxLength={14} color="black" id="player3" placeholder='Player 3'></input><br></br>
-          <input type="text" minLength={3} maxLength={14} color="black" id="player4" placeholder='Player 4'></input><br></br>
-          <input type="text" minLength={3} maxLength={14} color="black" id="player5" placeholder='Player 5'></input><br></br>
-          <input type="text" minLength={3} maxLength={14} color="black" id="player6" placeholder='Player 6'></input><br></br>
+          <input type="text" minLength={3} maxLength={14} id="player1" placeholder='Player 1' ></input><br></br>
+          <input type="text" minLength={3} maxLength={14} id="player2" placeholder='Player 2'></input><br></br>
+          <input type="text" minLength={3} maxLength={14} id="player3" placeholder='Player 3'></input><br></br>
+          <input type="text" minLength={3} maxLength={14} id="player4" placeholder='Player 4'></input><br></br>
+          <input type="text" minLength={3} maxLength={14} id="player5" placeholder='Player 5'></input><br></br>
+          <input type="text" minLength={3} maxLength={14} id="player6" placeholder='Player 6'></input><br></br>
           <button id="search" onClick={searchNames}>Search</button>
         </div>
         {players && <div />}
