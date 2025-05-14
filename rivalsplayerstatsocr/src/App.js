@@ -18,7 +18,7 @@ function App() {
   const getVideo = () => {
     navigator.mediaDevices
     .getUserMedia({ 
-      video: true, audio: false, facingMode: {exact: "environment"}
+      video: {facingMode: {exact: "environment"}}, audio: false 
     }).then(stream => {
       let video = videoRef.current;
       video.srcObject = stream;
@@ -106,6 +106,7 @@ function App() {
     setPlayers(arr2);
   }
 
+  
   console.log(players);
 
   return (
