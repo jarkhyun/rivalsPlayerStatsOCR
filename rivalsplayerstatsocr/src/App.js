@@ -9,7 +9,6 @@ function App() {
   const [inProgress, setInProgress] = useState(false);
   const [result, setResult] = useState('');
   const [players,setPlayers] = useState([]);
-
   const [hasPhoto, setHasPhoto] = useState(false);
   const videoRef = useRef(null);
   const photoRef = useRef(null);
@@ -19,7 +18,7 @@ function App() {
   const getVideo = () => {
     navigator.mediaDevices
     .getUserMedia({ 
-      video: true, audio: false, facingMode: "environment"
+      video: true, audio: false, facingMode: {exact: "environment"}
     }).then(stream => {
       let video = videoRef.current;
       video.srcObject = stream;
@@ -116,10 +115,10 @@ function App() {
         <button onClick={takePhoto}>Capture</button>
       </div>
       <div className={'result ' + (hasPhoto ? 'hasPhoto' : '')}>
+        {inProgress===true && <progress id="center" value={progress} max={1} />}
         <canvas ref={photoRef}></canvas>
         <button id="close" onClick={closePhoto}>Close</button>
         <button id="submit" onClick={processImage}>Capture</button>
-        {inProgress===true && <progress id="center" value={progress} max={1} />}
         <div id="center">{result !=="" && result}</div>
         <div>
           <input type="text" minLength={3} maxLength={14} id="player1" placeholder='Player 1' ></input><br></br>
