@@ -74,31 +74,37 @@ function App() {
     });
   };
 
-
-
   //rivals api
 
-  const axios = require('axios');
-  const player = "ZoomerShooter";
-  const url = `https://marvelrivalsapi.com/api/v1/player/${player}`;
-
-// Make a request for a user with a given ID
-  // fetch(url, {
-  //   headers: {
-  //     "x-api-key": process.env.REACT_APP_API_KEY
-  //   }
-  // })
-  // .then(function (response) {
-  //   // handle success
-  //   console.log(response.data);
-  // })
-  // .catch(function (error) {
-  //   // handle error
-  //   console.log(error);
-  // })
-  // .finally(function () {
-  //   // always executed
-  // });
+  const searchNames = () => {
+    const arr = [];
+    const arr2 =[];
+    for (let i = 0; i < 6; i++) {
+      arr[i] = document.getElementById(`player${i + 1}`).value;
+      if (arr[i] !== "") {
+        const axios = require('axios');
+        const url = `https://marvelrivalsapi.com/api/v1/player/${arr[i]}`;
+        // Make a request for a user with a given ID
+        fetch(url, {
+          headers: {
+            "x-api-key": process.env.REACT_APP_API_KEY
+          }
+        })
+        .then(function (response) {
+          // handle success
+          arr2.push(response.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+        .finally(function () {
+          // always executed
+        });
+      }
+    };
+    console.log(arr2)
+  }
 
   return (
     <div className="App">
@@ -109,18 +115,18 @@ function App() {
       <div className={'result ' + (hasPhoto ? 'hasPhoto' : '')}>
         <canvas ref={photoRef}></canvas>
         <button id="close" onClick={closePhoto}>Close</button>
-        <button id="submit" onClick={processImage}>Submit</button>
+        <button id="submit" onClick={processImage}>Capture</button>
         {inProgress===true && <progress id="center" value={progress} max={1} />}
         <div id="center">{result !=="" && result}</div>
-        <form>
-          <input type="text" minLength={3} maxLength={14} color="black" id="player" ></input><br></br>
-          <input type="text" minLength={3} maxLength={14} color="black" id="player" ></input><br></br>
-          <input type="text" minLength={3} maxLength={14} color="black" id="player" ></input><br></br>
-          <input type="text" minLength={3} maxLength={14} color="black" id="player" ></input><br></br>
-          <input type="text" minLength={3} maxLength={14} color="black" id="player" ></input><br></br>
-          <input type="text" minLength={3} maxLength={14} color="black" id="player" ></input><br></br>
-          <button id="ok" onClick={console.log("click")}>OK</button>
-        </form>
+        <div>
+          <input type="text" minLength={3} maxLength={14} color="black" id="player1" placeholder='Player 1' ></input><br></br>
+          <input type="text" minLength={3} maxLength={14} color="black" id="player2" placeholder='Player 2'></input><br></br>
+          <input type="text" minLength={3} maxLength={14} color="black" id="player3" placeholder='Player 3'></input><br></br>
+          <input type="text" minLength={3} maxLength={14} color="black" id="player4" placeholder='Player 4'></input><br></br>
+          <input type="text" minLength={3} maxLength={14} color="black" id="player5" placeholder='Player 5'></input><br></br>
+          <input type="text" minLength={3} maxLength={14} color="black" id="player6" placeholder='Player 6'></input><br></br>
+          <button id="search" onClick={searchNames}>Search</button>
+        </div>
       </div>
       
       {/* {file && <img src={URL.createObjectURL(file)} />} */}
