@@ -43,9 +43,11 @@ function App() {
 
     let ctx = photo.getContext('2d');
     ctx.drawImage(video, 0, 0, width, height);
+
     setHasPhoto(true);
-    console.log(photoRef.current);
-    URL.createObjectURL(photoRef.current)
+
+    const data = photo.toDataURL("image/png");
+    setfile(data);
   }
   const closePhoto = () => {
     let photo = photoRef.current;
@@ -56,11 +58,10 @@ function App() {
 
   // text extractor
 
-  const onFileChange = (e) => {
-    setfile(e.target.files[0]);
-  }
+  // const onFileChange = (e) => {
+  //   setfile(e.target.files[0]);
+  // }
   const processImage = () => {
-    console.log(file);
     Tesseract.recognize(
       file,"eng",
       { logger: (m) => {
@@ -110,17 +111,17 @@ function App() {
         <button id="close" onClick={closePhoto}>Close</button>
         <button id="submit" onClick={processImage}>Submit</button>
         {inProgress===true && <progress id="progress" value={progress} max={1} />}
+        {result !=="" && result}
       </div>
       
-      {file && <img src={URL.createObjectURL(file)} />}
+      {/* {file && <img src={URL.createObjectURL(file)} />} */}
       <div>
         
-      </div>
+      {/* </div>
       <input type="file" onChange={onFileChange} />
-      <div>
+      <div> */}
          
       </div>
-      {result !=="" && result}
     </div>
   );
 };
