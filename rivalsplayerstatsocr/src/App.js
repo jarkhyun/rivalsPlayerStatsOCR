@@ -105,7 +105,8 @@ function App() {
       </div>
       <div className={'result ' + (hasPhoto ? 'hasPhoto' : '')}>
         <canvas ref={photoRef}></canvas>
-        <button onClick={closePhoto}>Close</button>
+        <button id="close" onClick={closePhoto}>Close</button>
+        <button id="submit" onClick={processImage}>Submit</button>
       </div>
       
       {file && <img src={URL.createObjectURL(file)} />}
@@ -114,7 +115,7 @@ function App() {
       </div>
       <input type="file" onChange={onFileChange} />
       <div>
-        <input type="button" value="Submit" onClick={processImage}/>      
+         
       </div>
       {result !=="" && result}
     </div>

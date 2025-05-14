@@ -23,7 +23,7 @@
   height: 100%;
   display: flex;
   align-items: center;
-  background-color: rgba(0,0,0,0.9);
+  background-color: rgba(0,0,0,0.8);
   transition: 0.4s;
 }
 
@@ -38,22 +38,30 @@ video {
 }
 
 button{
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-
   appearance: none;
   border: none;
   outline: none;
 
   padding: 8px 16px;
-  background-image: linear-gradient(to right, #844FFF 50%, #FF4F84 50%);
+  background-image: linear-gradient(to right, #844FFF 50%, #fc3 50%);
   background-size: 200%;
   color: #fff;
   font-size: 24px;
   font-weight: 700;
   transition: 0.4s;
   cursor: pointer;
+}
+
+button#close {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+button#submit {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }
 
 button:hover {
