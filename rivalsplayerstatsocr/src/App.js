@@ -19,8 +19,8 @@ function App() {
   const getVideo = () => {
     navigator.mediaDevices
     .getUserMedia({ 
-      video: true, audio: false
-    },{facingMode: "environment"}).then(stream => {
+      video: true, audio: false, facingMode: "environment"
+    }).then(stream => {
       let video = videoRef.current;
       video.srcObject = stream;
       video.play();
