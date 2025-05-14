@@ -58,12 +58,9 @@ function App() {
 
   // text extractor
 
-  // const onFileChange = (e) => {
-  //   setfile(e.target.files[0]);
-  // }
   const processImage = () => {
     Tesseract.recognize(
-      file,"eng",
+      file,"eng",'1',
       { logger: (m) => {
           if (m.status==="recognizing text") {
             setProgress(m.progress);
@@ -77,10 +74,13 @@ function App() {
     });
   };
 
+
+
   //rivals api
 
   const axios = require('axios');
-  const url = 'https://marvelrivalsapi.com/api/v1/heroes/leaderboard/venom';
+  const player = "ZoomerShooter";
+  const url = `https://marvelrivalsapi.com/api/v1/player/${player}`;
 
 // Make a request for a user with a given ID
   // fetch(url, {
@@ -110,8 +110,17 @@ function App() {
         <canvas ref={photoRef}></canvas>
         <button id="close" onClick={closePhoto}>Close</button>
         <button id="submit" onClick={processImage}>Submit</button>
-        {inProgress===true && <progress id="progress" value={progress} max={1} />}
-        {result !=="" && result}
+        {inProgress===true && <progress id="center" value={progress} max={1} />}
+        <div id="center">{result !=="" && result}</div>
+        <form>
+          <input type="text" minLength={3} maxLength={14} color="black" id="player" ></input><br></br>
+          <input type="text" minLength={3} maxLength={14} color="black" id="player" ></input><br></br>
+          <input type="text" minLength={3} maxLength={14} color="black" id="player" ></input><br></br>
+          <input type="text" minLength={3} maxLength={14} color="black" id="player" ></input><br></br>
+          <input type="text" minLength={3} maxLength={14} color="black" id="player" ></input><br></br>
+          <input type="text" minLength={3} maxLength={14} color="black" id="player" ></input><br></br>
+          <button id="ok" onClick={console.log("click")}>OK</button>
+        </form>
       </div>
       
       {/* {file && <img src={URL.createObjectURL(file)} />} */}

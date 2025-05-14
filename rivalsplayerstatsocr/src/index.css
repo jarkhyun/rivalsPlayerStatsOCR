@@ -74,7 +74,7 @@ canvas {
   height: auto;
 }
 
-#progress {
+#center {
   position:absolute;
   left: 0;
   top: 0;
@@ -83,4 +83,12 @@ canvas {
   width: 50%;
   display: block;
   margin: auto;
+}
+
+input {
+  color: black;
+  height: 5vh;
+  text-align: center;
+  font-size: 25px;
+  margin-bottom: 1vh;
 }
