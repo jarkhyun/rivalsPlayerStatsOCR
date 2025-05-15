@@ -100,7 +100,9 @@ function App() {
         .then(response => response.json())
         .then(data => {
           // handle success
-          if (data.ok && data.error !== true) {
+          if (data.ok) {
+            throw new Error(data.status);
+          } else {
             arr2.push(data);
             let fst = {play_time: -Infinity}, sec = {play_time: -Infinity}, thd = {play_time: -Infinity};
             arr2[ctr].heroes_ranked.forEach(x => {
@@ -126,8 +128,6 @@ function App() {
             if (thd.play_time !== -Infinity) res.push(thd); 
             arr3.push(res);
             ctr++;
-          } else if (!data.ok) {
-            throw new Error(`Response status: ${data.status}`);
           }
         })
         .catch(function (error) {
