@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/rivalsPlayerStatsOCR/static/css/main.5d2de858.css",
-    "main.js": "/rivalsPlayerStatsOCR/static/js/main.2d2ae0b9.js",
+    "main.css": "/rivalsPlayerStatsOCR/static/css/main.894ed58d.css",
+    "main.js": "/rivalsPlayerStatsOCR/static/js/main.047e17d0.js",
     "static/js/453.397fc351.chunk.js": "/rivalsPlayerStatsOCR/static/js/453.397fc351.chunk.js",
     "static/media/axios.cjs": "/rivalsPlayerStatsOCR/static/media/axios.ff3fb7d8645a1bce8597.cjs",
     "index.html": "/rivalsPlayerStatsOCR/index.html",
-    "main.5d2de858.css.map": "/rivalsPlayerStatsOCR/static/css/main.5d2de858.css.map",
-    "main.2d2ae0b9.js.map": "/rivalsPlayerStatsOCR/static/js/main.2d2ae0b9.js.map",
+    "main.894ed58d.css.map": "/rivalsPlayerStatsOCR/static/css/main.894ed58d.css.map",
+    "main.047e17d0.js.map": "/rivalsPlayerStatsOCR/static/js/main.047e17d0.js.map",
     "453.397fc351.chunk.js.map": "/rivalsPlayerStatsOCR/static/js/453.397fc351.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5d2de858.css",
-    "static/js/main.2d2ae0b9.js"
+    "static/css/main.894ed58d.css",
+    "static/js/main.047e17d0.js"
   ]
 }
