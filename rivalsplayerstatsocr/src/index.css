@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Fira Sans', sans-serif;
+  font-family: 'RefrigeratorDeluxeBold',sans-serif;
   color: white;
 }
 
@@ -16,22 +16,6 @@
   position: relative;
 }
 
-.result {
-  /* position: fixed;
-  top: 0;
-  left: 100%;
-  width: 100%;
-  height: 100%; */
-  display: flex;
-  align-items: center;
-  background-color: rgba(0,0,0,0.8);
-  transition: 0.4s;
-}
-
-.result.hasPhoto {
-  left: 0; 
-}
-
 video {
   width: 100%;
   max-width: 100%;
@@ -42,26 +26,25 @@ button{
   appearance: none;
   border: none;
   outline: none;
-
   padding: 8px 16px;
-  background-image: linear-gradient(to right, #62a1c9 50%, #fc3 50%);
+  background-image: linear-gradient(to right, #fede31 50%, #f2f6fe 50%);
   background-size: 200%;
-  color: #fff;
+  color: #0b0e16;
   font-size: 24px;
   font-weight: 700;
   transition: 0.4s;
   cursor: pointer;
 }
 
-button#close {
+/* button#close {
   position: absolute;
-  bottom: 20px;
+  top: 20px;
   left: 20px;
-}
+} */
 
 button#submit {
   position: absolute;
-  bottom: 20px;
+  top: 20px;
   right: 20px;
 }
 
@@ -87,16 +70,18 @@ canvas {
 
 input {
   color: black;
+  background-color: #f2f6fe;
   height: 5vh;
   text-align: center;
   font-size: 25px;
-  margin-bottom: 1vh;
+  margin: 1vh;
 }
 
-stats{ 
-  color: white;
+#player {
+  text-align: left;
 }
 
-#hidden {
+#hidden, .hidden {
   display: none;
 }
+
