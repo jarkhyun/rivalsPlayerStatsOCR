@@ -148,7 +148,7 @@ function App() {
   return (
     <div className="App">
       <div>
-        <video ref={videoRef}></video>
+        <video ref={videoRef} id={(hasPhoto ? 'hidden' : '')}></video>
         <button onClick={takePhoto}>Capture</button>
       </div>
       <div className={'result ' + (hasPhoto ? 'hasPhoto' : '')}>
@@ -166,11 +166,11 @@ function App() {
           <input type="text" minLength={3} maxLength={14} id="player6" placeholder='Player 6'></input><br></br>
           <button id="search" onClick={searchNames}>Search</button>
         </div>
-        <div id="stats">
+        <div id="players">
           {isLoading !== true && (
             <>
               {players[0] && 
-                <div>
+                <div id="player">
                   {players[0].name}
                   {players[0].overall_stats.ranked.total_matches && <div>Overall Ranked Winrate: {(players[0].overall_stats.ranked.total_wins / players[0].overall_stats.ranked.total_matches * 100).toFixed(2) }%</div>}
                   <div>Top Heroes: </div>
@@ -180,7 +180,7 @@ function App() {
                 </div>
               }
               {players[1] && 
-                <div>
+                <div id="player">
                   {players[1].name}
                   {players[1].overall_stats.ranked.total_matches && <div>Overall Ranked Winrate: {(players[1].overall_stats.ranked.total_wins / players[1].overall_stats.ranked.total_matches * 100).toFixed(2) }%</div>}
                   <div>Top Heroes: </div>
@@ -190,7 +190,7 @@ function App() {
                 </div>
               }
               {players[2] && 
-                <div>
+                <div id="player">
                   {players[2].name}
                   {players[2].overall_stats.ranked.total_matches && <div>Overall Ranked Winrate: {(players[2].overall_stats.ranked.total_wins / players[2].overall_stats.ranked.total_matches * 100).toFixed(2) }%</div>}
                   <div>Top Heroes: </div>
@@ -200,7 +200,7 @@ function App() {
                 </div>
               } 
               {players[3] && 
-                <div>
+                <div id="player">
                   {players[3].name}
                   {players[3].overall_stats.ranked.total_matches && <div>Overall Ranked Winrate: {(players[3].overall_stats.ranked.total_wins / players[3].overall_stats.ranked.total_matches * 100).toFixed(2) }%</div>}
                   <div>Top Heroes: </div>
@@ -210,7 +210,7 @@ function App() {
                 </div>
               }
               {players[4] && 
-                <div>
+                <div id="player">
                   {players[4].name}
                   {players[4].overall_stats.ranked.total_matches && <div>Overall Ranked Winrate: {(players[4].overall_stats.ranked.total_wins / players[4].overall_stats.ranked.total_matches * 100).toFixed(2) }%</div>}
                   <div>Top Heroes: </div>
@@ -220,7 +220,7 @@ function App() {
                 </div>
               }
               {players[5] && 
-                <div>
+                <div id="player">
                   {players[5].name}
                   {players[5].overall_stats.ranked.total_matches && <div>Overall Ranked Winrate: {(players[5].overall_stats.ranked.total_wins / players[5].overall_stats.ranked.total_matches * 100).toFixed(2) }%</div>}
                   <div>Top Heroes: </div>
