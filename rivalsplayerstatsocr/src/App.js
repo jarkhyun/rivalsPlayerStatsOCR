@@ -137,14 +137,12 @@ function App() {
         })
         .finally(function () {
           // always executed
+          setPlayers(arr2);
+          setHeroes(arr3);  
           setIsLoading(false); 
         });
       }
     };
-    setPlayers(arr2);
-    setHeroes(arr3);
-    console.log(players)
-    console.log(heroes);
   }
 
   return (
