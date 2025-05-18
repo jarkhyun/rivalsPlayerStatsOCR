@@ -7,11 +7,12 @@ function App() {
   const [file, setfile] = useState();
   const [progress, setProgress] = useState(0);
   const [inProgress, setInProgress] = useState(false);
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [players,setPlayers] = useState([]);
   const [heroes, setHeroes] = useState([]);
   const [hasPhoto, setHasPhoto] = useState(false);
+  const [counter, setCounter] = useState(0);
   const videoRef = useRef(null);
   const photoRef = useRef(null);
 
@@ -72,43 +73,20 @@ function App() {
           }}
         }
       }).then(({ data: { text } }) => {
-        const strArr = text.replace(/\n/g,' ').split(" ").filter((word) => word.length >= 3);
-        setResult(strArr);
+        const strArr = text.replace(/\n/g,' ').split(' ').filter((word) => word.length >= 3);
+        if (counter === 0) {
+          setResult([strArr]);
+        } else {
+          result.push(strArr);
+        }
+        setCounter(counter + 1);
     });
   };
 
-  // await fetch("https://account.tracker.gg/connect/authorize?client_id=0af2521e-33e9-4d40-836e-6f865cb98870&code_challenge=5Gava4KiDTAtpkWWqVirJScNTG_J38dOKBgjfAufMzI&code_challenge_method=S256&redirect_uri=https%3A%2F%2Ftracker.gg%2Fauth%2Fcallback-silent&response_type=code&scope=openid+profile+account+api+events+offline_access&prompt=none&state=9c02497a-88f7-4d66-a775-248301629be9", {
-  //     "credentials": "include",
-  //     "headers": {
-  //         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0",
-  //         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-  //         "Accept-Language": "en-US,en;q=0.5",
-  //         "Alt-Used": "account.tracker.gg",
-  //         "Upgrade-Insecure-Requests": "1",
-  //         "Sec-Fetch-Dest": "iframe",
-  //         "Sec-Fetch-Mode": "navigate",
-  //         "Sec-Fetch-Site": "same-site",
-  //         "Priority": "u=4"
-  //     },
-  //     "referrer": "https://tracker.gg/",
-  //     "method": "GET",
-  //     "mode": "cors"
-  // });
-  // await fetch("https://api.tracker.gg/api/v2/marvel-rivals/standard/profile/ign/KickNostanza?", {
-  //   "credentials": "include",
-  //   "headers": {
-  //       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0",
-  //       "Accept": "application/json, text/plain, */*",
-  //       "Accept-Language": "en-US,en;q=0.5",
-  //       "Alt-Used": "api.tracker.gg",
-  //       "Sec-Fetch-Dest": "empty",
-  //       "Sec-Fetch-Mode": "cors",
-  //       "Sec-Fetch-Site": "same-site"
-  //   },
-  //   "referrer": "https://tracker.gg/",
-  //   "method": "GET",
-  //   "mode": "cors"
-  // });
+  const clearHistory = () => {
+    setResult([]);
+    setCounter(0);
+  }
 
   //rivals api search
 
@@ -200,8 +178,8 @@ function App() {
       <button id="close" className={(hasPhoto ? '' : 'hidden')} onClick={closePhoto}>Close</button>
       <div>
         <div>
-          <div className={(result ? '' : 'hidden')}>Text recognition results: </div>
-          <div className={(result ? '' : 'hidden')}>{result}</div>
+          <div className={(result.length > 0 ? '' : 'hidden')}>Text recognition results: </div>
+          <div className={(result.length > 0 ? '' : 'hidden')}>{result}</div>
         </div>
         <input type="text" minLength={3} maxLength={14} id="player1" placeholder='Player 1' ></input><br></br>
         <input type="text" minLength={3} maxLength={14} id="player2" placeholder='Player 2'></input><br></br>
