@@ -72,9 +72,43 @@ function App() {
           }}
         }
       }).then(({ data: { text } }) => {
-      setResult(text);
+        const strArr = text.replace(/\n/g,' ').split(" ").filter((word) => word.length >= 3);
+        setResult(strArr);
     });
   };
+
+  // await fetch("https://account.tracker.gg/connect/authorize?client_id=0af2521e-33e9-4d40-836e-6f865cb98870&code_challenge=5Gava4KiDTAtpkWWqVirJScNTG_J38dOKBgjfAufMzI&code_challenge_method=S256&redirect_uri=https%3A%2F%2Ftracker.gg%2Fauth%2Fcallback-silent&response_type=code&scope=openid+profile+account+api+events+offline_access&prompt=none&state=9c02497a-88f7-4d66-a775-248301629be9", {
+  //     "credentials": "include",
+  //     "headers": {
+  //         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0",
+  //         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+  //         "Accept-Language": "en-US,en;q=0.5",
+  //         "Alt-Used": "account.tracker.gg",
+  //         "Upgrade-Insecure-Requests": "1",
+  //         "Sec-Fetch-Dest": "iframe",
+  //         "Sec-Fetch-Mode": "navigate",
+  //         "Sec-Fetch-Site": "same-site",
+  //         "Priority": "u=4"
+  //     },
+  //     "referrer": "https://tracker.gg/",
+  //     "method": "GET",
+  //     "mode": "cors"
+  // });
+  // await fetch("https://api.tracker.gg/api/v2/marvel-rivals/standard/profile/ign/KickNostanza?", {
+  //   "credentials": "include",
+  //   "headers": {
+  //       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0",
+  //       "Accept": "application/json, text/plain, */*",
+  //       "Accept-Language": "en-US,en;q=0.5",
+  //       "Alt-Used": "api.tracker.gg",
+  //       "Sec-Fetch-Dest": "empty",
+  //       "Sec-Fetch-Mode": "cors",
+  //       "Sec-Fetch-Site": "same-site"
+  //   },
+  //   "referrer": "https://tracker.gg/",
+  //   "method": "GET",
+  //   "mode": "cors"
+  // });
 
   //rivals api search
 
@@ -85,6 +119,7 @@ function App() {
     const arr2 =[];
     const arr3 = [];
     let ctr = 0;
+    const isLooping = false;
     for (let i = 0; i < 6; i++) {
       setIsLoading(true);
       arr[i] = document.getElementById(`player${i + 1}`).value;
@@ -136,18 +171,22 @@ function App() {
         })
         .finally(function () {
           // always executed
-          setPlayers(arr2);
-          setHeroes(arr3);
-          setIsLoading(false);
+          if (i = 5){
+            setPlayers(arr2);
+            setHeroes(arr3);
+          }
         });
       }
     };
   }
 
-    useEffect(() => {
-      console.log(heroes);
-      if (heroes) {setIsLoading(false)}; 
-    },[heroes]);
+  useEffect(() => {
+
+  },[heroes]);
+
+  //XLButtercup
+  //IronManWon
+  //KickNostanza
 
   return (
     <div className="App">
@@ -241,5 +280,7 @@ function App() {
     </div>
   );
 };
+
+
 
 export default App;
