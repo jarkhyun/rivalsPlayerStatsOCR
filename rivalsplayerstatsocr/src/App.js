@@ -185,7 +185,7 @@ function App() {
         <button className={(hasPhoto ? 'hidden' : '')} id="capture" onClick={takePhoto}>Capture</button>
       </div>
       <canvas className={(hasPhoto ? '' : 'hidden')} ref={photoRef}></canvas>
-      <button id="submit" className={(hasPhoto && !ocrDisable ? '' : 'hidden')} onClick={processImage}>OCR</button>
+      {/* <button id="submit" className={(hasPhoto && !ocrDisable ? '' : 'hidden')} onClick={processImage}>OCR</button> */}
       <button id="close" className={(hasPhoto ? '' : 'hidden')} onClick={closePhoto}>Close</button>
       <div>
         <div>
