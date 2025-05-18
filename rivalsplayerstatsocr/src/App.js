@@ -9,6 +9,7 @@ function App() {
   const [inProgress, setInProgress] = useState(false);
   const [result, setResult] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [text, setText] = useState([]);
   const [players,setPlayers] = useState([]);
   const [heroes, setHeroes] = useState([]);
   const [hasPhoto, setHasPhoto] = useState(false);
@@ -75,17 +76,24 @@ function App() {
       }).then(({ data: { text } }) => {
         const strArr = text.replace(/\n/g,' ').split(' ').filter((word) => word.length >= 3);
         if (counter === 0) {
-          setResult([strArr]);
+          setResult(strArr);
         } else {
-          result.push(strArr);
+          setResult(result.concat(strArr));
         }
         setCounter(counter + 1);
+        console.log(text);
+        console.log(strArr);
+        console.log(result);
     });
   };
 
   const clearHistory = () => {
     setResult([]);
     setCounter(0);
+  }
+
+  const filterText = () => {
+
   }
 
   //rivals api search
@@ -169,10 +177,10 @@ function App() {
   return (
     <div className="App">
       <div>
+        {inProgress===true && <progress id="center" value={progress} max={1} />}
         <video ref={videoRef} className={(hasPhoto ? 'hidden' : '')}></video>
         <button className={(hasPhoto ? 'hidden' : '')} id="capture" onClick={takePhoto}>Capture</button>
       </div>
-      {inProgress===true && <progress id="center" value={progress} max={1} />}
       <canvas className={(hasPhoto ? '' : 'hidden')} ref={photoRef}></canvas>
       <button id="submit" className={(hasPhoto ? '' : 'hidden')} onClick={processImage}>OCR</button>
       <button id="close" className={(hasPhoto ? '' : 'hidden')} onClick={closePhoto}>Close</button>
