@@ -13,6 +13,7 @@ function App() {
   const [players,setPlayers] = useState([]);
   const [heroes, setHeroes] = useState([]);
   const [hasPhoto, setHasPhoto] = useState(false);
+  const [ocrDisable, SetOcrDisable] = useState(false)
   const [counter, setCounter] = useState(0);
   const videoRef = useRef(null);
   const photoRef = useRef(null);
@@ -34,7 +35,6 @@ function App() {
   useEffect(() => {
     getVideo();
   }, [videoRef])
- 
   const takePhoto = () => {
     const width = videoRef.current.clientWidth;
     const height = videoRef.current.clientHeight;
@@ -58,11 +58,13 @@ function App() {
     let ctx = photo.getContext('2d');
     ctx.clearRect(0, 0, photo.width, photo.height)
     setHasPhoto(false);
+    SetOcrDisable(false);
   }
 
   // text extractor
 
   const processImage = () => {
+    SetOcrDisable(true);
     Tesseract.recognize(
       file,"eng",'2',
       { logger: (m) => {
@@ -75,15 +77,13 @@ function App() {
         }
       }).then(({ data: { text } }) => {
         const strArr = text.replace(/\n/g,' ').split(' ').filter((word) => word.length >= 3);
-        if (counter === 0) {
+        if (result.length == 0) {
           setResult(strArr);
         } else {
           setResult(result.concat(strArr));
+          setText(result.filter((e, i, self) => i !== self.indexOf(e)));
         }
         setCounter(counter + 1);
-        console.log(text);
-        console.log(strArr);
-        console.log(result);
     });
   };
 
@@ -167,8 +167,9 @@ function App() {
   }
 
   useEffect(() => {
-
-  },[heroes]);
+        console.log(result)
+        console.log(result.filter((e, i, self) => i !== self.indexOf(e)).filter((e, i, self) => i === self.indexOf(e)));
+  },[result]);
 
   //XLButtercup
   //IronManWon
@@ -182,12 +183,12 @@ function App() {
         <button className={(hasPhoto ? 'hidden' : '')} id="capture" onClick={takePhoto}>Capture</button>
       </div>
       <canvas className={(hasPhoto ? '' : 'hidden')} ref={photoRef}></canvas>
-      <button id="submit" className={(hasPhoto ? '' : 'hidden')} onClick={processImage}>OCR</button>
+      <button id="submit" className={(hasPhoto && !ocrDisable ? '' : 'hidden')} onClick={processImage}>OCR</button>
       <button id="close" className={(hasPhoto ? '' : 'hidden')} onClick={closePhoto}>Close</button>
       <div>
         <div>
           <div className={(result.length > 0 ? '' : 'hidden')}>Text recognition results: </div>
-          <div className={(result.length > 0 ? '' : 'hidden')}>{result}</div>
+          <div className={(result.length > 0 ? '' : 'hidden')}>{text}</div>
         </div>
         <input type="text" minLength={3} maxLength={14} id="player1" placeholder='Player 1' ></input><br></br>
         <input type="text" minLength={3} maxLength={14} id="player2" placeholder='Player 2'></input><br></br>
