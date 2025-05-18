@@ -52,6 +52,8 @@ function App() {
 
     const data = photo.toDataURL("image/png");
     setfile(data);
+
+    processImage();
   }
   const closePhoto = () => {
     let photo = photoRef.current;
