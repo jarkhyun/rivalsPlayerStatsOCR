@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/rivalsPlayerStatsOCR/static/css/main.7df7cd75.css",
-    "main.js": "/rivalsPlayerStatsOCR/static/js/main.3b2f7ae1.js",
+    "main.js": "/rivalsPlayerStatsOCR/static/js/main.4613b653.js",
     "static/js/453.397fc351.chunk.js": "/rivalsPlayerStatsOCR/static/js/453.397fc351.chunk.js",
     "static/media/axios.cjs": "/rivalsPlayerStatsOCR/static/media/axios.ff3fb7d8645a1bce8597.cjs",
     "index.html": "/rivalsPlayerStatsOCR/index.html",
     "main.7df7cd75.css.map": "/rivalsPlayerStatsOCR/static/css/main.7df7cd75.css.map",
-    "main.3b2f7ae1.js.map": "/rivalsPlayerStatsOCR/static/js/main.3b2f7ae1.js.map",
+    "main.4613b653.js.map": "/rivalsPlayerStatsOCR/static/js/main.4613b653.js.map",
     "453.397fc351.chunk.js.map": "/rivalsPlayerStatsOCR/static/js/453.397fc351.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.7df7cd75.css",
-    "static/js/main.3b2f7ae1.js"
+    "static/js/main.4613b653.js"
   ]
 }
