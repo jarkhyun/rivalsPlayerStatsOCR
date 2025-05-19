@@ -83,7 +83,9 @@ function App() {
           setResult(strArr);
         } else {
           setResult(result.concat(strArr));
-          setText(result.filter((e, i, self) => i !== self.indexOf(e)));
+          let s = new Set(result.filter((e, i, self) => i !== self.indexOf(e)));
+          let a1 = [...s]
+          setText(a1);
         }
         setCounter(counter + 1);
     });
@@ -169,7 +171,8 @@ function App() {
   }
 
   useEffect(() => {
-
+    console.log(result);
+    console.log(text);
   },[result]);
 
   return (
