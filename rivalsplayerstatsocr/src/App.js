@@ -169,13 +169,8 @@ function App() {
   }
 
   useEffect(() => {
-        console.log(result)
-        console.log(result.filter((e, i, self) => i !== self.indexOf(e)).filter((e, i, self) => i === self.indexOf(e)));
-  },[result]);
 
-  //XLButtercup
-  //IronManWon
-  //KickNostanza
+  },[result]);
 
   return (
     <div className="App">
@@ -190,7 +185,7 @@ function App() {
       <div>
         <div>
           <div className={(result.length > 0 ? '' : 'hidden')}>Text recognition results: </div>
-          <div className={(result.length > 0 ? '' : 'hidden')}>{text}</div>
+          <div className={(result.length > 0 ? '' : 'hidden')}>{text.join(' ')}</div>
         </div>
         <input type="text" minLength={3} maxLength={14} id="player1" placeholder='Player 1' ></input><br></br>
         <input type="text" minLength={3} maxLength={14} id="player2" placeholder='Player 2'></input><br></br>
