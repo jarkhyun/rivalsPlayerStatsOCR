@@ -160,7 +160,7 @@ function App() {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          document.getElementById("playerResults").innerHTML += `${error}`;
         })
         .finally(function () {
           // always executed
