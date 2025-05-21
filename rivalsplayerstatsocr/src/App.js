@@ -8,6 +8,7 @@ function App() {
   const [result, setResult] = useState([]);
   const [text, setText] = useState([]);
   const [hasPhoto, setHasPhoto] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const videoRef = useRef(null);
   const photoRef = useRef(null);
 
@@ -90,6 +91,7 @@ function App() {
   //rivals api search
 
   const searchNames = (playerArr) => {
+    setIsLoading(true);
     const arr2 =[];
     const arr3 = [];
     let ctr = 0;
@@ -162,6 +164,7 @@ function App() {
         })
         .finally(function () {
           // always executed
+          setIsLoading(false);
         });
       }
     };
@@ -206,6 +209,7 @@ function App() {
         </div>
         <div>
           <div id="playerResults"></div>
+          {isLoading===true && <div>Loading...</div>}
         </div>
       </div>
     </div>
