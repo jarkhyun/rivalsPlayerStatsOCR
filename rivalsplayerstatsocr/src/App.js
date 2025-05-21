@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './App.css';
 import Tesseract from 'tesseract.js';
-import axios from "axios";
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -84,9 +83,9 @@ function App() {
     });
   };
 
-  const clearHistory = () => {
-    setResult([]);
-  }
+  // const clearHistory = () => {
+  //   setResult([]);
+  // }
 
   //rivals api search
 
@@ -94,10 +93,8 @@ function App() {
     const arr2 =[];
     const arr3 = [];
     let ctr = 0;
-    const isLooping = false;
     for (let i = 0; i < playerArr.length; i++) {
       if (playerArr[i] !== "") {
-        const axios = require('axios');
         const url = `https://marvelrivalsapi.com/api/v1/player/${playerArr[i]}`;
         // Make a request for a user with a given ID
         fetch(url, {
@@ -151,11 +148,12 @@ function App() {
                 document.getElementById("playerResults").innerHTML += `<div>3. ${res[2].hero_name} : ${res[2].wins} W // ${res[2].matches - res[2].wins} L. ${(res[2].wins / res[2].matches * 100).toFixed(2)}% ${(res[2].play_time / 3600).toFixed(2)} Hrs.</div>`
               }
             } else if (arr2[i].overall_stats.ranked.total_matches === 0) {
-              document.getElementById("playerResults").innerHTML += ` No ranked data.</div>`
+              document.getElementById("playerResults").innerHTML += `<div> No ranked data.</div>`
             } else {
-              document.getElementById("playerResults").innerHTML += "Error. Please try again."
+              document.getElementById("playerResults").innerHTML += "<div>Error. Please try again.</div>"
             }
             document.getElementById("playerResults").innerHTML += `<div><div></div></div>`
+
           }
         })
         .catch(function (error) {
@@ -173,7 +171,7 @@ function App() {
     let playerArr = [];
     document.getElementById("textselect").innerHTML = "";
     for (var i = 0; i < fil.length; i++) {
-      document.getElementById("textselect").innerHTML += "<div id='search'><input type='text' class='search' id="+`input${i}`+" minLength={3} maxLength={14} value='"+fil[i]+"'></input><input type='checkbox' class='checkbox' id="+`createdCheck${i}`+" name="+`input${i}`+"></input></div>";
+      document.getElementById("textselect").innerHTML += `<div id='search'><input type='text' class='search' id="input${i}" minLength={3} maxLength={14} value='${fil[i]}'></input><input type='checkbox' class='checkbox' id="createdCheck${i}" name="input${i}"></input></div>`;
     }
     if (fil.length > 0) {
       document.getElementById("textselect").innerHTML += "<div><button type='submit' id='submitAll'>Search</button></div>";
