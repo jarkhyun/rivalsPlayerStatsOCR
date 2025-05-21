@@ -4,17 +4,11 @@ import Tesseract from 'tesseract.js';
 import axios from "axios";
 
 function App() {
-  const [file, setfile] = useState();
   const [progress, setProgress] = useState(0);
   const [inProgress, setInProgress] = useState(false);
   const [result, setResult] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [text, setText] = useState([]);
-  const [players,setPlayers] = useState([]);
-  const [heroes, setHeroes] = useState([]);
   const [hasPhoto, setHasPhoto] = useState(false);
-  const [ocrDisable, SetOcrDisable] = useState(false)
-  const [counter, setCounter] = useState(0);
   const videoRef = useRef(null);
   const photoRef = useRef(null);
 
@@ -35,6 +29,7 @@ function App() {
   useEffect(() => {
     getVideo();
   }, [videoRef])
+
   const takePhoto = () => {
     const width = videoRef.current.clientWidth;
     const height = videoRef.current.clientHeight;
@@ -51,24 +46,21 @@ function App() {
     setHasPhoto(true);
 
     const data = photo.toDataURL("image/png");
-    setfile(data);
 
-    processImage();
+    processImage(data);
   }
   const closePhoto = () => {
     let photo = photoRef.current;
     let ctx = photo.getContext('2d');
     ctx.clearRect(0, 0, photo.width, photo.height)
     setHasPhoto(false);
-    SetOcrDisable(false);
   }
 
   // text extractor
 
-  const processImage = () => {
-    SetOcrDisable(true);
+  const processImage = (photo) => {
     Tesseract.recognize(
-      file,"eng",'2',
+      photo,"eng",'2',
       { logger: (m) => {
           if (m.status==="recognizing text") {
             setProgress(m.progress);
@@ -79,43 +71,34 @@ function App() {
         }
       }).then(({ data: { text } }) => {
         const strArr = text.replace(/\n/g,' ').split(' ').filter((word) => word.length >= 3);
-        if (result.length == 0) {
+        if (result.length === 0) {
           setResult(strArr);
         } else {
           setResult(result.concat(strArr));
           let s = new Set(result.filter((e, i, self) => i !== self.indexOf(e)));
           let a1 = [...s]
           setText(a1);
+          createButtons(a1);
         }
-        setCounter(counter + 1);
+
     });
   };
 
   const clearHistory = () => {
     setResult([]);
-    setCounter(0);
-  }
-
-  const filterText = () => {
-
   }
 
   //rivals api search
 
-  const searchNames = () => {
-    setPlayers([]);
-    setHeroes([]);
-    const arr = [];
+  const searchNames = (playerArr) => {
     const arr2 =[];
     const arr3 = [];
     let ctr = 0;
     const isLooping = false;
-    for (let i = 0; i < 6; i++) {
-      setIsLoading(true);
-      arr[i] = document.getElementById(`player${i + 1}`).value;
-      if (arr[i] !== "") {
+    for (let i = 0; i < playerArr.length; i++) {
+      if (playerArr[i] !== "") {
         const axios = require('axios');
-        const url = `https://marvelrivalsapi.com/api/v1/player/${arr[i]}`;
+        const url = `https://marvelrivalsapi.com/api/v1/player/${playerArr[i]}`;
         // Make a request for a user with a given ID
         fetch(url, {
           headers: {
@@ -153,6 +136,25 @@ function App() {
             if (thd.play_time !== -Infinity) res.push(thd); 
             arr3.push(res);
             ctr++;
+            
+            document.getElementById("playerResults").innerHTML += `<div>${arr2[i].name}`;
+            if (arr2[i] && arr2[i].overall_stats.ranked.total_matches) {
+              document.getElementById("playerResults").innerHTML += `<div> Overall Ranked Winrate: ${(arr2[i].overall_stats.ranked.total_wins / arr2[i].overall_stats.ranked.total_matches * 100).toFixed(2)}%</div>`
+              if (res[0]) {
+                document.getElementById("playerResults").innerHTML += `<div>Top Heroes: </div><div>1. ${res[0].hero_name} : ${res[0].wins} W // ${res[0].matches - res[0].wins} L. ${(res[0].wins / res[0].matches * 100).toFixed(2)}% ${(res[0].play_time / 3600).toFixed(2)} Hrs.</div>`
+              }
+              if (res[1]) {
+                document.getElementById("playerResults").innerHTML += `<div>2. ${res[1].hero_name} : ${res[1].wins} W // ${res[1].matches - res[1].wins} L. ${(res[1].wins / res[1].matches * 100).toFixed(2)}% ${(res[1].play_time / 3600).toFixed(2)} Hrs.</div>`
+              }
+              if (res[2]) {
+                document.getElementById("playerResults").innerHTML += `<div>3. ${res[2].hero_name} : ${res[2].wins} W // ${res[2].matches - res[2].wins} L. ${(res[2].wins / res[2].matches * 100).toFixed(2)}% ${(res[2].play_time / 3600).toFixed(2)} Hrs.</div>`
+              }
+            } else if (arr2[i].overall_stats.ranked.total_matches === 0) {
+              document.getElementById("playerResults").innerHTML += ` No ranked data.</div>`
+            } else {
+              document.getElementById("playerResults").innerHTML += "Error. Please try again."
+            }
+            document.getElementById("playerResults").innerHTML += `<div><div></div></div>`
           }
         })
         .catch(function (error) {
@@ -161,113 +163,54 @@ function App() {
         })
         .finally(function () {
           // always executed
-          if (i = 5){
-            setPlayers(arr2);
-            setHeroes(arr3);
-          }
         });
       }
     };
   }
-
-  useEffect(() => {
-    console.log(result);
-    console.log(text);
-  },[result]);
+  
+  const createButtons = (fil) => {
+    let playerArr = [];
+    document.getElementById("textselect").innerHTML = "";
+    for (var i = 0; i < fil.length; i++) {
+      document.getElementById("textselect").innerHTML += "<div id='search'><input type='text' class='search' id="+`input${i}`+" minLength={3} maxLength={14} value='"+fil[i]+"'></input><input type='checkbox' class='checkbox' id="+`createdCheck${i}`+" name="+`input${i}`+"></input></div>";
+    }
+    if (fil.length > 0) {
+      document.getElementById("textselect").innerHTML += "<div><button type='submit' id='submitAll'>Search</button></div>";
+      document.getElementById("submitAll").addEventListener("click", () => {
+        for (var i = 0; i < fil.length; i++) {
+          const check = document.getElementById(`createdCheck${i}`);
+          if (check.checked === true) {
+            playerArr.push(document.getElementById(check.name).value);
+          }
+        }
+        searchNames(playerArr);
+        playerArr = [];
+      }, false);
+    }
+  }
 
   return (
     <div className="App">
       <div>
-        {inProgress===true && <progress id="center" value={progress} max={1} />}
         <video ref={videoRef} className={(hasPhoto ? 'hidden' : '')}></video>
         <button className={(hasPhoto ? 'hidden' : '')} id="capture" onClick={takePhoto}>Capture</button>
       </div>
       <canvas className={(hasPhoto ? '' : 'hidden')} ref={photoRef}></canvas>
       {/* <button id="submit" className={(hasPhoto && !ocrDisable ? '' : 'hidden')} onClick={processImage}>OCR</button> */}
       <button id="close" className={(hasPhoto ? '' : 'hidden')} onClick={closePhoto}>Close</button>
+      {inProgress===true && <progress id="center" value={progress} max={1} />}
       <div>
         <div>
-          <div className={(result.length > 0 ? '' : 'hidden')}>Text recognition results: </div>
-          <div className={(result.length > 0 ? '' : 'hidden')}>{text.join(' ')}</div>
+          <div className={(result.length > 0 ? '' : 'hidden')}>{(text.length === 0 ? 'REQUIRES MORE INFO' : 'Text recognition results: ')} </div>
+          {/* <div className={(result.length > 0 ? '' : 'hidden')}>{text.join(' ')}</div> */}
+          <div id="textselect" className={(result.length > 0 ? '' : 'hidden')}></div>
         </div>
-        <input type="text" minLength={3} maxLength={14} id="player1" placeholder='Player 1' ></input><br></br>
-        <input type="text" minLength={3} maxLength={14} id="player2" placeholder='Player 2'></input><br></br>
-        <input type="text" minLength={3} maxLength={14} id="player3" placeholder='Player 3'></input><br></br>
-        <input type="text" minLength={3} maxLength={14} id="player4" placeholder='Player 4'></input><br></br>
-        <input type="text" minLength={3} maxLength={14} id="player5" placeholder='Player 5'></input><br></br>
-        <input type="text" minLength={3} maxLength={14} id="player6" placeholder='Player 6'></input><br></br>
-        <button id="search" onClick={searchNames}>Search</button>
-      </div>
-      <div id="players">
-        {isLoading !== true && (
-          <>
-            {players[5] && 
-              <div id="player">
-                {players[5].overall_stats.ranked.total_matches && <div>{players[5].name} Overall Ranked Winrate: {(players[5].overall_stats.ranked.total_wins / players[5].overall_stats.ranked.total_matches * 100).toFixed(2) }%</div>}
-                <div>Top Heroes: </div>
-                {heroes[5][0] && <div>1. {heroes[5][0].hero_name} : {heroes[5][0].wins} W // {heroes[5][0].matches - heroes[5][0].wins} L. {(heroes[5][0].wins / heroes[5][0].matches * 100).toFixed(2) }%</div>}
-                {heroes[5][1] && <div>2. {heroes[5][1].hero_name} : {heroes[5][1].wins} W // {heroes[5][1].matches - heroes[5][1].wins} L. {(heroes[5][1].wins / heroes[5][1].matches * 100).toFixed(2) }%</div>}
-                {heroes[5][2] && <div>3. {heroes[5][2].hero_name} : {heroes[5][2].wins} W // {heroes[5][2].matches - heroes[5][2].wins} L. {(heroes[5][2].wins / heroes[5][2].matches * 100).toFixed(2) }%</div>} 
-              
-              </div> 
-            }
-            {players[4] && 
-              <div id="player">
-                {players[4].overall_stats.ranked.total_matches && <div>{players[4].name} Overall Ranked Winrate: {(players[4].overall_stats.ranked.total_wins / players[4].overall_stats.ranked.total_matches * 100).toFixed(2) }%</div>}
-                <div>Top Heroes: </div>
-                {heroes[4][0] && <div>1. {heroes[4][0].hero_name} : {heroes[4][0].wins} W // {heroes[4][0].matches - heroes[4][0].wins} L. {(heroes[4][0].wins / heroes[4][0].matches * 100).toFixed(2) }%</div>}
-                {heroes[4][1] && <div>2. {heroes[4][1].hero_name} : {heroes[4][1].wins} W // {heroes[4][1].matches - heroes[4][1].wins} L. {(heroes[4][1].wins / heroes[4][1].matches * 100).toFixed(2) }%</div>}
-                {heroes[4][2] && <div>3. {heroes[4][2].hero_name} : {heroes[4][2].wins} W // {heroes[4][2].matches - heroes[4][2].wins} L. {(heroes[4][2].wins / heroes[4][2].matches * 100).toFixed(2) }%</div>} 
-              
-              </div>
-            }
-            {players[3] && 
-              <div id="player">
-                {players[3].overall_stats.ranked.total_matches && <div>{players[3].name} Overall Ranked Winrate: {(players[3].overall_stats.ranked.total_wins / players[3].overall_stats.ranked.total_matches * 100).toFixed(2) }%</div>}
-                <div>Top Heroes: </div>
-                {heroes[3][0] && <div>1. {heroes[3][0].hero_name} : {heroes[3][0].wins} W // {heroes[3][0].matches - heroes[3][0].wins} L. {(heroes[3][0].wins / heroes[3][0].matches * 100).toFixed(2) }%</div>}
-                {heroes[3][1] && <div>2. {heroes[3][1].hero_name} : {heroes[3][1].wins} W // {heroes[3][1].matches - heroes[3][1].wins} L. {(heroes[3][1].wins / heroes[3][1].matches * 100).toFixed(2) }%</div>}
-                {heroes[3][2] && <div>3. {heroes[3][2].hero_name} : {heroes[3][2].wins} W // {heroes[3][2].matches - heroes[3][2].wins} L. {(heroes[3][2].wins / heroes[3][2].matches * 100).toFixed(2) }%</div>} 
-              
-              </div>
-            }
-            {players[2] && 
-              <div id="player">
-                {players[2].overall_stats.ranked.total_matches && <div>{players[2].name} Overall Ranked Winrate: {(players[2].overall_stats.ranked.total_wins / players[2].overall_stats.ranked.total_matches * 100).toFixed(2) }%</div>}
-                <div>Top Heroes: </div>
-                {heroes[2][0] && <div>1. {heroes[2][0].hero_name} : {heroes[2][0].wins} W // {heroes[2][0].matches - heroes[2][0].wins} L. {(heroes[2][0].wins / heroes[2][0].matches * 100).toFixed(2) }%</div>}
-                {heroes[2][1] && <div>2. {heroes[2][1].hero_name} : {heroes[2][1].wins} W // {heroes[2][1].matches - heroes[2][1].wins} L. {(heroes[2][1].wins / heroes[2][1].matches * 100).toFixed(2) }%</div>}
-                {heroes[2][2] && <div>3. {heroes[2][2].hero_name} : {heroes[2][2].wins} W // {heroes[2][2].matches - heroes[2][2].wins} L. {(heroes[2][2].wins / heroes[2][2].matches * 100).toFixed(2) }%</div>} 
-              
-              </div>
-            } 
-            {players[1] && 
-              <div id="player">
-                {players[1].overall_stats.ranked.total_matches && <div>{players[1].name} Overall Ranked Winrate: {(players[1].overall_stats.ranked.total_wins / players[1].overall_stats.ranked.total_matches * 100).toFixed(2) }%</div>}
-                <div>Top Heroes: </div>
-                {heroes[1][0] && <div>1. {heroes[1][0].hero_name} : {heroes[1][0].wins} W // {heroes[1][0].matches - heroes[1][0].wins} L. {(heroes[1][0].wins / heroes[1][0].matches * 100).toFixed(2) }%</div>}
-                {heroes[1][1] && <div>2. {heroes[1][1].hero_name} : {heroes[1][1].wins} W // {heroes[1][1].matches - heroes[1][1].wins} L. {(heroes[1][1].wins / heroes[1][1].matches * 100).toFixed(2) }%</div>}
-                {heroes[1][2] && <div>3. {heroes[1][2].hero_name} : {heroes[1][2].wins} W // {heroes[1][2].matches - heroes[1][2].wins} L. {(heroes[1][2].wins / heroes[1][2].matches * 100).toFixed(2) }%</div>} 
-              
-              </div>
-            }
-            {players[0] && 
-              <div id="player">
-                {players[0].overall_stats.ranked.total_matches && <div>{players[0].name} Overall Ranked Winrate: {(players[0].overall_stats.ranked.total_wins / players[0].overall_stats.ranked.total_matches * 100).toFixed(2) }%</div>}
-                <div>Top Heroes: </div>
-                {heroes[0][0] && <div>1. {heroes[0][0].hero_name} : {heroes[0][0].wins} W // {heroes[0][0].matches - heroes[0][0].wins} L. {(heroes[0][0].wins / heroes[0][0].matches * 100).toFixed(2) }%</div>}
-                {heroes[0][1] && <div>2. {heroes[0][1].hero_name} : {heroes[0][1].wins} W // {heroes[0][1].matches - heroes[0][1].wins} L. {(heroes[0][1].wins / heroes[0][1].matches * 100).toFixed(2) }%</div>}
-                {heroes[0][2] && <div>3. {heroes[0][2].hero_name} : {heroes[0][2].wins} W // {heroes[0][2].matches - heroes[0][2].wins} L. {(heroes[0][2].wins / heroes[0][2].matches * 100).toFixed(2) }%</div>} 
-              
-              </div>
-            }
-          </>
-        )}
+        <div>
+          <div id="playerResults"></div>
+        </div>
       </div>
     </div>
   );
 };
-
-
 
 export default App;

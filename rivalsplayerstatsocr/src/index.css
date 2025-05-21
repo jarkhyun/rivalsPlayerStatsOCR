@@ -34,6 +34,9 @@ button{
   font-weight: 700;
   transition: 0.4s;
   cursor: pointer;
+  margin: 1vh;
+  /* width: 25%; */
+  height: 5vh;
 }
 
 /* button#close {
@@ -68,15 +71,6 @@ canvas {
   margin: auto;
 }
 
-input {
-  color: black;
-  background-color: #f2f6fe;
-  height: 5vh;
-  text-align: center;
-  font-size: 25px;
-  margin: 1vh;
-}
-
 #player {
   text-align: left;
 }
@@ -85,3 +79,25 @@ input {
   display: none;
 }
 
+input {
+  color: black;
+  background-color: #f2f6fe;
+  height: 5vh;
+  text-align: center;
+  font-size: 24px;
+  margin: 1vh;
+  font-weight: 700;
+}
+
+#search {
+  display: flex;
+  justify-content: center;
+}
+
+.search {
+  width: 50%;
+}
+
+.checkbox {
+  width: 7%;
+}
