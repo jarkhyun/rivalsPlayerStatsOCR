@@ -138,6 +138,7 @@ function App() {
             ctr++;
             
             document.getElementById("playerResults").innerHTML += `<div>${arr2[i].name}`;
+            document.getElementById("playerResults").innerHTML += `<a href="https://tracker.gg/marvel-rivals/profile/ign/${arr2[i].name}/overview?season=4">Detailed Summary</a>`;
             if (arr2[i] && arr2[i].overall_stats.ranked.total_matches) {
               document.getElementById("playerResults").innerHTML += `<div> Overall Ranked Winrate: ${(arr2[i].overall_stats.ranked.total_wins / arr2[i].overall_stats.ranked.total_matches * 100).toFixed(2)}%</div>`
               if (res[0]) {
